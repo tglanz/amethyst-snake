@@ -5,11 +5,11 @@ extern crate amethyst;
 extern crate log;
 
 extern crate serde;
-#[macro_use]
 extern crate serde_derive;
 
 // Modules
 mod states;
+mod audio;
 
 use amethyst::{
     prelude::*,
@@ -38,7 +38,7 @@ pub fn initialize() -> amethyst::Result<()> {
     // The rendering pipeline
     let pipe = Pipeline::build()
         .with_stage(Stage::with_backbuffer()
-            .clear_target([0.0, 0.0, 0.0, 1.0], 1.0)
+            .clear_target([0.2, 0.4, 0.5, 1.0], 1.0)
             .with_pass(DrawFlat2D::new())
             .with_pass(DrawUi::new()));
     
@@ -55,7 +55,7 @@ pub fn initialize() -> amethyst::Result<()> {
         // UI stuff
         .with_bundle(UiBundle::<String, String>::new())?;
 
-    let mut app = Application::new(root_dir, states::LoadState, game_data)?;
+    let mut app = Application::new(root_dir, states::LoadState::new(), game_data)?;
 
     app.run();
 
