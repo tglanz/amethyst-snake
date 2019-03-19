@@ -15,7 +15,7 @@ impl SimpleState for LevelState {
                 return Trans::Push(Box::new(PauseState));
             }
         }
-        
+   
         Trans::None
     }
 }

@@ -2,7 +2,11 @@ use std::path::Path;
 
 use amethyst::{
     prelude::*,
-    ui::{UiCreator},
+    ui::{
+        UiCreator,
+        UiEventType,
+        UiFinder
+    },
     audio:: {
         output::init_output
     },
@@ -26,18 +30,26 @@ impl SimpleState for MainMenuState {
     }
 
     fn handle_event(&mut self, data: StateData<'_, GameData<'_, '_>>, event: StateEvent) -> SimpleTrans {
+        
         match &event {
             StateEvent::Window(event) => {
                 if is_close_requested(&event) || is_key_down(&event, VirtualKeyCode::Escape) {
-                    Trans::Quit
-                } else {
-                    Trans::None
+                    return Trans::Quit
                 }
             }
-            StateEvent::Ui(ui_event) => {
-                // Interaction with ui_event
-                Trans::None
+            StateEvent::Ui(event) => {
+                if event.event_type == UiEventType::Click {
+                    data.world.setup::<UiFinder>();
+                    let finder = data.world.system_data::<UiFinder>();
+                    if let Some(entity) = finder.find("exit_button") {
+                        if event.target == entity {
+                            return Trans::Quit;
+                        }
+                    }
+                }
             }
         }
+
+        Trans::None
     }
 }
