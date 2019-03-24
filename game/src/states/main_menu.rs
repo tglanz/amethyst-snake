@@ -1,23 +1,13 @@
 use crate::{
-    audio::{
-        Sounds
-    },
+    resources,
+    states::{LevelState},
 };
 
 use amethyst::{
-    assets::{
-        AssetStorage,
-    },
     prelude::*,
-    ui::{
-        UiCreator,
-        UiEventType,
-        UiFinder
-    },
-    input::{
-        is_close_requested,
-        is_key_down
-    },
+    assets::{AssetStorage,},
+    ui::{UiEventType,UiFinder},
+    input::{is_close_requested,is_key_down},
     winit::VirtualKeyCode,
 };
 
@@ -25,18 +15,19 @@ pub struct MainMenuState;
 
 impl SimpleState for MainMenuState {
     fn on_start(&mut self, data: StateData<GameData<'_, '_>>) {
-        debug!("MainMenu::on_start");
-        data.world.exec(|mut creator: UiCreator<'_>| {
-            creator.create("resources/main-menu.ron", ());
-        });
+        let ui = {
+            let handles = data.world.read_resource::<resources::UiHandles>();
+            handles.main_menu.clone().unwrap()
+        };
+        data.world.create_entity().with(ui).build();
 
         // Play a sound, just to demonstrate how.
         // In systems its easier, just request relevant storages
         {
-            let sounds = data.world.read_resource::<Sounds>();
+            let audio_handles = data.world.read_resource::<resources::AudioHandles>();
             let source_storage = data.world.read_resource::<AssetStorage<amethyst::audio::Source>>();
             let output = data.world.read_resource::<amethyst::audio::output::Output>();
-            if let Some(sfx) = source_storage.get(&sounds.discreet){
+            if let Some(sfx) = source_storage.get(&audio_handles.sounds.discreet){
                 output.play_once(sfx, 1.0);
             }
         }
@@ -51,11 +42,20 @@ impl SimpleState for MainMenuState {
             }
             StateEvent::Ui(event) => {
                 if event.event_type == UiEventType::Click {
-                    data.world.setup::<UiFinder>();
-                    let finder = data.world.system_data::<UiFinder>();
-                    if let Some(entity) = finder.find("exit_button") {
+                    if let Some(entity) = data.world.exec(|finder: UiFinder| {
+                        finder.find("exit_button")
+                    }) {
                         if event.target == entity {
                             return Trans::Quit;
+                        }
+                    }
+
+                    if let Some(entity) = data.world.exec(|finder: UiFinder| {
+                        finder.find("start_button")
+                    }) {
+                        if event.target == entity {
+                            let _ = data.world.delete_all();
+                            return Trans::Push(Box::new(LevelState::new(10, 10)));
                         }
                     }
                 }

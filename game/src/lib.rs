@@ -1,15 +1,16 @@
 // Crates
 extern crate amethyst;
 
-#[macro_use]
 extern crate log;
 
 extern crate serde;
 extern crate serde_derive;
 
 // Modules
+mod hacks;
 mod states;
-mod audio;
+mod components;
+mod resources;
 
 use amethyst::{
     prelude::*,
@@ -54,6 +55,7 @@ pub fn initialize() -> amethyst::Result<()> {
         .with_bundle(InputBundle::<String, String>::new())?
         // UI stuff
         .with_bundle(UiBundle::<String, String>::new())?;
+
 
     let mut app = Application::new(root_dir, states::LoadState::new(), game_data)?;
 

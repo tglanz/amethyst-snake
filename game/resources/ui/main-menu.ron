@@ -25,7 +25,7 @@ Container(
             ),
             text: (
                 text: "Snake",
-                font: File("font/slkscrb.ttf", Ttf, ()),
+                font: File("resources/font/slkscrb.ttf", Ttf, ()),
                 font_size: 80.,
                 color: (.0, .0, .0, 1.),
             )
@@ -42,7 +42,7 @@ Container(
                 percent: false
             ),
             image: (
-                image: File("texture/main.png", Png, (channel: Srgb)),
+                image: File("resources/main.png", Png, (channel: Srgb)),
             )
         ),
 
@@ -69,12 +69,12 @@ Container(
                     ),
                     button: (
                         text: "Start",
-                        font: File("font/slkscr.ttf", Ttf, ()),
+                        font: File("resources/font/slkscr.ttf", Ttf, ()),
                         font_size: 40.,
                         normal_text_color: (.5, .5, .0, 1),
                         hover_text_color: (.99, .0, .0, 1),
                         press_text_color: (.0, .99, .0, 1),
-                        press_sound: File("audio/boop.ogg", Ogg, ()),
+                        press_sound: File("resources/audio/boop.ogg", Ogg, ()),
                     )
                 ),
                 Button (
@@ -89,12 +89,12 @@ Container(
                     ),
                     button: (
                         text: "Exit",
-                        font: File("font/slkscr.ttf", Ttf, ()),
+                        font: File("resources/font/slkscr.ttf", Ttf, ()),
                         font_size: 40.,
                         normal_text_color: (.5, .5, .0, 1),
                         hover_text_color: (.99, .0, .0, 1),
                         press_text_color: (.0, .99, .0, 1),
-                        press_sound: File("audio/boop.ogg", Ogg, ()),
+                        press_sound: File("resources/audio/boop.ogg", Ogg, ()),
                     )
                 ),
             ]

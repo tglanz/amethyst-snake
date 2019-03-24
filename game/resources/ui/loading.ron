@@ -22,7 +22,7 @@ Container(
             ),
             text: (
                 text: "Loading",
-                font: File("font/slkscrb.ttf", Ttf, ()),
+                font: File("resources/font/slkscrb.ttf", Ttf, ()),
                 font_size: 20.,
                 color: (.8, .8, .0, 1.),
             )
