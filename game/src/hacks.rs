@@ -7,7 +7,6 @@ use amethyst::{
 };
 
 pub fn register_components(world: &mut World) {
-    world.register::<Tile>();
     world.register::<GridPosition>();
 }
 

@@ -1,12 +1,11 @@
 use crate::{
     components::*,
-    resources::RenderHandles,
 };
 
 use amethyst::{
     prelude::*,
     core::{ transform::Transform, },
-    renderer::{ SpriteRender, Camera, Projection, },
+    renderer::{ Camera, Projection, },
 };
 
 pub struct LevelState {
@@ -21,24 +20,18 @@ impl LevelState {
 }
 
 fn initialize_grid(world: &mut World, rows: usize, cols: usize) {
-    let floor_render = {
-        let render_handles = world.read_resource::<RenderHandles>();
-        SpriteRender {
-            sprite_sheet: render_handles.spritesheet.clone().unwrap(),
-            sprite_number: 5
-        }
-    };
-
-    for row in 0..rows-1 {
-        for col in 0..cols-1 {
-            let mut transform = Transform::default();
-            transform
-                .translate_xyz(row as f32 * 32.0 + 14.0, col as f32 * 32.0 + 10.0, 0.0);
+    for row in 0..rows {
+        for col in 0..cols {
             world.create_entity()
-                .with(Tile::new(TileType::Ground))
                 .with(GridPosition::new(row, col))
-                .with(transform)
-                .with(floor_render.clone())
+                .with(Tile::new(
+                    if row * col == 0 || row == rows - 1 || col == cols - 1 {
+                        TileType::Wall
+                    } else {
+                        TileType::Ground
+                    }
+                ))
+                .with(Transform::default())
                 .build();
         }
     }

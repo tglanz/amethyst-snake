@@ -55,7 +55,7 @@ impl SimpleState for MainMenuState {
                     }) {
                         if event.target == entity {
                             let _ = data.world.delete_all();
-                            return Trans::Push(Box::new(LevelState::new(10, 10)));
+                            return Trans::Push(Box::new(LevelState::new(40, 60)));
                         }
                     }
                 }

@@ -10,6 +10,14 @@ pub struct RenderHandles {
     pub spritesheet: Option<SpriteSheetHandle>,
 }
 
+impl Default for RenderHandles {
+    fn default() -> Self {
+        Self {
+            spritesheet: None
+        }
+    }
+}
+
 impl Loadable for RenderHandles {
     fn load(world: &mut World, progress_counter: &mut ProgressCounter) -> Self {
         let loader = world.read_resource::<Loader>();

@@ -4,8 +4,8 @@ use amethyst::{
 
 #[derive(PartialEq, Eq)]
 pub enum TileType {
+    Wall,
     Ground,
-    // Wall,
 }
 
 pub struct Tile {

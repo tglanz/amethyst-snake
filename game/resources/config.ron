@@ -1,0 +1,8 @@
+(
+    grid: (
+        offset: (32.0, 32.0),
+        tile_size: 32.0,
+        tile_scale: 0.5,
+        tile_margin: 0.0,
+    )
+)

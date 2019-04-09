@@ -10,6 +10,7 @@ extern crate serde_derive;
 mod hacks;
 mod states;
 mod components;
+mod systems;
 mod resources;
 
 use amethyst::{
@@ -54,7 +55,9 @@ pub fn initialize() -> amethyst::Result<()> {
         // Input events
         .with_bundle(InputBundle::<String, String>::new())?
         // UI stuff
-        .with_bundle(UiBundle::<String, String>::new())?;
+        .with_bundle(UiBundle::<String, String>::new())?
+        .with(systems::SpriteAssignSystem, "sprite_assign", &[])
+        .with(systems::GridArrangeSystem, "grid_arrange", &[]);
 
 
     let mut app = Application::new(root_dir, states::LoadState::new(), game_data)?;
