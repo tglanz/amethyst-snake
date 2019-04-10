@@ -3,11 +3,10 @@ use crate::{
     resources::GridConfig,
 };
 
-use log;
 
 use amethyst::{
     core::Transform,
-    ecs::{Entities, System, WriteStorage, ReadStorage, Read, Join},
+    ecs::{System, WriteStorage, ReadStorage, Read, Join},
 };
 
 pub struct GridArrangeSystem;
@@ -30,7 +29,7 @@ impl<'a> System<'a> for GridArrangeSystem {
             let y = position.row as f32 * multiplier;
             let x = position.col as f32 * multiplier;
             transform
-                .set_xyz(offset_x, offset_y, 0.0).translate_xyz(x, y, 0.0)
+                .set_xyz(offset_x, offset_y, position.layer as f32).translate_xyz(x, y, 0.0)
                 .set_scale(grid_config.tile_scale, grid_config.tile_scale, 0.0);
         }
     }

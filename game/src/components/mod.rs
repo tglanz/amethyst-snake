@@ -1,5 +1,6 @@
 mod tile;
 mod grid_position;
+mod snake;
 
 pub use self::{
     tile::{
@@ -7,5 +8,8 @@ pub use self::{
     },
     grid_position::{
         GridPosition,
+    },
+    snake::{
+        SnakeHead, SnakeLimb,
     },
 };

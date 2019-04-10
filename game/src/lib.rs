@@ -7,17 +7,19 @@ extern crate serde;
 extern crate serde_derive;
 
 // Modules
+mod types;
 mod hacks;
 mod states;
 mod components;
 mod systems;
 mod resources;
+mod bundle;
 
 use amethyst::{
     prelude::*,
     assets::{Processor},
     core::{TransformBundle},
-    renderer::{DisplayConfig, RenderBundle, Pipeline, DrawFlat2D, Stage},
+    renderer::{DisplayConfig, RenderBundle, Pipeline, DrawFlat2D, Stage, ColorMask, ALPHA},
     ui::{DrawUi, UiBundle},
     input::{InputBundle},
 };
@@ -41,7 +43,8 @@ pub fn initialize() -> amethyst::Result<()> {
     let pipe = Pipeline::build()
         .with_stage(Stage::with_backbuffer()
             .clear_target([0.2, 0.4, 0.5, 1.0], 1.0)
-            .with_pass(DrawFlat2D::new())
+            .with_pass(DrawFlat2D::new()
+                .with_transparency(ColorMask::all(), ALPHA, None))
             .with_pass(DrawUi::new()));
     
     let game_data = GameDataBuilder::default()
@@ -56,8 +59,7 @@ pub fn initialize() -> amethyst::Result<()> {
         .with_bundle(InputBundle::<String, String>::new())?
         // UI stuff
         .with_bundle(UiBundle::<String, String>::new())?
-        .with(systems::SpriteAssignSystem, "sprite_assign", &[])
-        .with(systems::GridArrangeSystem, "grid_arrange", &[]);
+        .with_bundle(bundle::Bundle::default())?;
 
 
     let mut app = Application::new(root_dir, states::LoadState::new(), game_data)?;

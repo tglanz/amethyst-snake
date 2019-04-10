@@ -14,7 +14,7 @@ pub struct Tile {
 
 impl Tile {
     pub fn new(tile_type: TileType) -> Self {
-        Tile {
+        Self {
             tile_type
         }
     }

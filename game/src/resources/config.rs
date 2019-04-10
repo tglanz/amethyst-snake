@@ -1,12 +1,6 @@
-use super::Loadable;
-
 use serde::{Deserialize, Serialize};
 
-use amethyst::{
-    config::Config
-};
-
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Default, Debug, Deserialize, Serialize)]
 pub struct GridConfig {
     pub offset: (f32, f32),
     pub tile_size: f32,
@@ -14,26 +8,19 @@ pub struct GridConfig {
     pub tile_margin: f32,
 }
 
-impl Default for GridConfig {
-    fn default() -> Self {
-        Self {
-            offset: (0.0, 0.0),
-            tile_size: 0.0,
-            tile_scale: 0.0,
-            tile_margin: 0.0
-        }
-    }
+#[derive(Default, Debug, Deserialize, Serialize)]
+pub struct SpriteConfig {
+    pub snake_head_up: usize,
+    pub snake_limb_up_up: usize,
+    pub snake_limb_up_right: usize,
+    pub snake_tail_down: usize,
+    pub apple: usize,
+    pub tile_ground: usize,
+    pub tile_wall: usize
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Default, Debug, Deserialize, Serialize)]
 pub struct GameConfig {
-    pub grid: GridConfig
-}
-
-impl Default for GameConfig {
-    fn default() -> Self {
-        Self {
-            grid: GridConfig::default()
-        }
-    }
+    pub grid: GridConfig,
+    pub sprite: SpriteConfig,
 }

@@ -8,12 +8,13 @@ use amethyst::{
 pub struct GridPosition {
     pub row: usize,
     pub col: usize,
+    pub layer: usize,
 }
 
 impl GridPosition {
-    pub fn new(row: usize, col: usize) -> Self {
+    pub fn new(row: usize, col: usize, layer: usize) -> Self {
         GridPosition {
-            row, col
+            row, col, layer
         }
     }
 }

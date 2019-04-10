@@ -1,4 +1,5 @@
 use crate::{
+    types::*,
     components::*,
 };
 
@@ -23,7 +24,7 @@ fn initialize_grid(world: &mut World, rows: usize, cols: usize) {
     for row in 0..rows {
         for col in 0..cols {
             world.create_entity()
-                .with(GridPosition::new(row, col))
+                .with(GridPosition::new(row, col, 0))
                 .with(Tile::new(
                     if row * col == 0 || row == rows - 1 || col == cols - 1 {
                         TileType::Wall
@@ -31,11 +32,27 @@ fn initialize_grid(world: &mut World, rows: usize, cols: usize) {
                         TileType::Ground
                     }
                 ))
-                .with(Transform::default())
                 .build();
         }
     }
 }    
+
+fn initialize_snake(world: &mut World, rows: usize, cols: usize) {
+    world.create_entity()
+        .with(GridPosition::new(rows / 2, cols / 2 + 1, 1))
+        .with(SnakeHead { direction: Direction::Right, health: 3 })
+        .build();
+    
+    world.create_entity()
+        .with(GridPosition::new(rows / 2, cols / 2, 1))
+        .with(SnakeLimb { directions: (Direction::Right, Direction::Right), ttl: 2 })
+        .build();
+
+    world.create_entity()
+        .with(GridPosition::new(rows / 2, cols / 2 - 1, 1))
+        .with(SnakeLimb { directions: (Direction::Right, Direction::Right), ttl: 1 })
+        .build();
+}
 
 fn initialize_camera(world: &mut World) {
     let mut transform = Transform::default();
@@ -55,6 +72,7 @@ impl SimpleState for LevelState {
         let world = data.world;
         initialize_camera(world);
         initialize_grid(world, self.rows, self.cols);
+        initialize_snake(world, self.rows, self.cols);
     }
 
     fn update(&mut self, _data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
