@@ -40,17 +40,27 @@ fn initialize_grid(world: &mut World, rows: usize, cols: usize) {
 fn initialize_snake(world: &mut World, rows: usize, cols: usize) {
     world.create_entity()
         .with(GridPosition::new(rows / 2, cols / 2 + 1, 1))
-        .with(SnakeHead { direction: Direction::Right, health: 3 })
+        .with(SnakeHead)
+        .with(SnakeLimb {
+            directions: (Direction::Right, Direction::Right),
+            ttl: 3
+        })
         .build();
     
     world.create_entity()
         .with(GridPosition::new(rows / 2, cols / 2, 1))
-        .with(SnakeLimb { directions: (Direction::Right, Direction::Right), ttl: 2 })
+        .with(SnakeLimb {
+            directions: (Direction::Right, Direction::Right),
+            ttl: 2
+        })
         .build();
 
     world.create_entity()
         .with(GridPosition::new(rows / 2, cols / 2 - 1, 1))
-        .with(SnakeLimb { directions: (Direction::Right, Direction::Right), ttl: 1 })
+        .with(SnakeLimb {
+            directions: (Direction::Right, Direction::Right),
+            ttl: 1
+        })
         .build();
 }
 

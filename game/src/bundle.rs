@@ -1,3 +1,7 @@
+use std::{
+    time::Duration
+};
+
 use crate::{
     systems::*
 };
@@ -19,11 +23,16 @@ impl<'a, 'b> SystemBundle<'a, 'b> for Bundle {
         builder.add(AppendMissingTransformsSystem, "append_missing_transforms", &[]);
 
         // spriters
-        builder.add(TileSprite, "tile_sprite", &["append_missing_sprites"]);
-        builder.add(SnakeSprite, "snake_sprite", &["append_missing_sprites"]);
+        builder.add(SpriteTileSystem, "sprite_tile", &["append_missing_sprites"]);
+        builder.add(SpriteSnakeSystem, "sprite_snake", &["append_missing_sprites"]);
 
         // transformers
-        builder.add(GridArrangeSystem, "grid_arrange", &[]);
+        builder.add(ArrangeGridSystem, "arrange_grid", &[]);
+
+        // logic / input
+        builder.add(DirectSnakeSystem, "direct_snake", &["input_system"]);
+        builder.add(MoveSnakeSystem::new(), "move_snake", &["direct_snake"]);
+        builder.add(RemoveLimbsSystem, "remove_limbs", &["move_snake"]);
 
         // OKers
         Ok(())

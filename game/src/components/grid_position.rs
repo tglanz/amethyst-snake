@@ -5,6 +5,7 @@ use amethyst::{
     },
 };
 
+#[derive(Debug)]
 pub struct GridPosition {
     pub row: usize,
     pub col: usize,

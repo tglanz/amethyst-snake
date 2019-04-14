@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Deserialize, Serialize)]
@@ -20,7 +22,13 @@ pub struct SpriteConfig {
 }
 
 #[derive(Default, Debug, Deserialize, Serialize)]
+pub struct GameplayConfig {
+    pub base_update_millis: u64,
+}
+
+#[derive(Default, Debug, Deserialize, Serialize)]
 pub struct GameConfig {
+    pub gameplay: GameplayConfig,
     pub grid: GridConfig,
     pub sprite: SpriteConfig,
 }

@@ -36,8 +36,8 @@ pub fn initialize() -> amethyst::Result<()> {
     let resources_dir = format!("{}/resources", root_dir);
     log::info!("resources directory: {}", resources_dir);
 
-    let path = format!("{}/display-config.ron", resources_dir);
-    let display_config = DisplayConfig::load(&path);
+    let display_config_path = format!("{}/display-config.ron", resources_dir);
+    let display_config = DisplayConfig::load(&display_config_path);
 
     // The rendering pipeline
     let pipe = Pipeline::build()
@@ -47,6 +47,10 @@ pub fn initialize() -> amethyst::Result<()> {
                 .with_transparency(ColorMask::all(), ALPHA, None))
             .with_pass(DrawUi::new()));
     
+    let input_bindings_path = format!("{}/input-bindings.ron", resources_dir);
+    let input_bundle = InputBundle::<String, String>::new()
+        .with_bindings_from_file(input_bindings_path)?;
+
     let game_data = GameDataBuilder::default()
         // For audio prefabs
         .with(Processor::<amethyst::audio::Source>::new(), "audio_source_processor", &[])
@@ -56,7 +60,7 @@ pub fn initialize() -> amethyst::Result<()> {
         .with_bundle(RenderBundle::new(pipe, Some(display_config))
             .with_sprite_sheet_processor())?
         // Input events
-        .with_bundle(InputBundle::<String, String>::new())?
+        .with_bundle(input_bundle)?
         // UI stuff
         .with_bundle(UiBundle::<String, String>::new())?
         .with_bundle(bundle::Bundle::default())?;

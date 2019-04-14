@@ -3,12 +3,13 @@ use crate::{
 };
 
 use amethyst::{
-    ecs::{Component, HashMapStorage}
+    ecs::{Component, HashMapStorage, NullStorage}
 };
 
-pub struct SnakeHead {
-    pub direction: Direction,
-    pub health: usize,
+pub struct SnakeHead;
+
+impl Default for SnakeHead {
+    fn default() -> Self { Self }
 }
 
 pub struct SnakeLimb {
@@ -30,7 +31,7 @@ pub struct SnakeLimb {
 }
 
 impl Component for SnakeHead {
-    type Storage = HashMapStorage<Self>;
+    type Storage = NullStorage<Self>;
 }
 
 impl Component for SnakeLimb {
